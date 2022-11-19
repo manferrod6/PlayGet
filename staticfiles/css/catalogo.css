@@ -1,15 +1,13 @@
-body,html,main,.sec{
+body,html,main, .sec  {
   height: 100%;
 }
+
 
 .sec-cards{
   position: relative;
   z-index:  3;
 }
 
-.card{
-  
-}
 
 .sec-productos{
   position: relative;
@@ -45,4 +43,14 @@ body,html,main,.sec{
   max-width: 60%;
   height: 60%;
 
+}
+
+li{
+  list-style: none;
+}
+
+@media screen{
+  section .sec{
+    height: 100%;
+  }
 }
