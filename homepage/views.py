@@ -19,6 +19,13 @@ def home(request):
 def index(request):
     return render(request, 'homepage/index.html')
 
+def producto(request,pk):
+    producto = Producto.objects.get(id=pk)
+
+    producto.cantidad = [*range(1, producto.cantidad)]
+
+    return render(request, 'homepage/producto.html',{'producto': producto })
+
 def catalogo(request):
     tipoBusqueda = request.GET.get('tipo-busqueda','')
     busqueda = request.GET.get('busqueda','')
@@ -42,9 +49,6 @@ def catalogo(request):
             elif tipoBusqueda == 'fabricante':
                 productos = Producto.objects.filter(Q(fabricante__icontains = busqueda) & Q(categoria__in = arr))
     
-
-
-
 
     for p in productos:
         p.cantidad = [*range(1, p.cantidad)]
