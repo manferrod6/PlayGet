@@ -36,7 +36,9 @@
   --font-weight-medium:           500;
   --font-weight-bold:             700;
 }
-
+html{
+  overflow: hidden;
+}
 body {
     background: var(--white-color);
     font-family: var(--body-font-family); 
