@@ -1,5 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Producto
+from .models import Carro
+from .models import ItemCarro
+
+
 from django.db.models import Q
 
 # Create your views here.
@@ -62,3 +66,63 @@ def catalogo(request):
         'categorias': categorias, 
         'busqueda': busqueda}
     )
+
+def carro(request, total=0, items_carro=None):
+    try:
+        carro = Carro.objects.get(id_carro=_id_carro(request))
+        items_carro = ItemCarro.objects.filter(carro=carro, esta_activo=True)
+        for item in items_carro:
+            total += (item.producto.precio * item.cantidad)
+    except :
+        pass 
+
+    context = {
+        'total' : total,
+        'items': items_carro,
+    }
+
+    return render(request, 'homepage/carro.html', context)
+
+def _id_carro(request):
+    carro = request.session.session_key
+    if not carro:
+        carro = request.session.create()
+    return carro
+
+
+def anade_carro(request, id_producto):
+    producto = Producto.objects.get(id=id_producto)
+    try:
+        carro = Carro.objects.get(id_carro=_id_carro(request))
+    except Carro.DoesNotExist:
+        carro = Carro.objects.create(
+            id_carro = _id_carro(request)
+        )
+        carro.save()
+
+    try:
+        item_carro = ItemCarro.objects.get(producto=producto, carro=carro)
+        item_carro.cantidad += 1
+        item_carro.save()
+    except ItemCarro.DoesNotExist:
+        item_carro = ItemCarro.objects.create(
+            producto = producto,
+            cantidad = 1,
+            carro = carro,
+        )
+        item_carro.save()
+
+    return redirect('/carro')
+
+
+def remove_cart(request, id_producto):
+    carro = Carro.objects.get(id_carro=_id_carro(request))
+    producto = get_object_or_404(Producto, id= id_producto)
+    item_carro = ItemCarro.objects.get(producto=producto, carro=carro)
+
+    if item_carro.cantidad > 1 :
+        item_carro.cantidad -= 1
+        item_carro.save()
+    else:
+        item_carro.delete()
+    return redirect('/carro')

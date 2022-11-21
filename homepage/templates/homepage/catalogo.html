@@ -84,6 +84,10 @@
                                 <img src="/image/{{p.img}}" alt="">
                                 <a href="/productos/{{p.id}}">{{p.nombre}}</a>
                                 <span>{{p.precio}}€</span>
+
+                                {% if p.cantidad > 0 %}
+                                <span>Fuera de stock</span>
+                                {% else %}
                                 <div class="añadir">
                                     <label for="quantity{{p.id}}">Cantidad</label>
                                         <select name="quantity{{p.id}}" id="quantity{{p.id}}">
@@ -91,8 +95,11 @@
                                                 <option value="{{i}}">{{i}}</option>
                                             {% endfor %}
                                         </select>
-                                    <button>Añadir</button>
+                                    <a href="{% url 'anade_carro' p.id %}">Añadir</a>
                                 </div>
+
+                                {% endif%}
+
                             </div>
                         {% endfor %}
                     </div>
