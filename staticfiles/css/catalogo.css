@@ -1,0 +1,56 @@
+body,html,main, .sec  {
+  height: 100%;
+}
+
+
+.sec-cards{
+  position: relative;
+  z-index:  3;
+}
+
+
+.sec-productos{
+  position: relative;
+  z-index:  3;
+  margin: 50px;
+  margin-top: 120px;
+  background-color:  palegoldenrod;
+  height:80vh;
+  width: 60vw;
+  overflow-y: auto;
+}
+.filtros-busqueda{
+  width: 100%;
+  background-color:  brown;
+
+}
+.productos{
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+.producto{
+  height: 30vh;
+  width: 30vh;
+  margin: 10px;
+  background-color: aquamarine;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.producto img{
+  max-width: 60%;
+  height: 60%;
+
+}
+
+li{
+  list-style: none;
+}
+
+@media screen{
+  section .sec{
+    height: 100%;
+  }
+}
