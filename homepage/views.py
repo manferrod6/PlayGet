@@ -90,7 +90,7 @@ def _id_carro(request):
     return carro
 
 
-def anade_carro(request, id_producto):
+def anade_carro(request, id_producto, numero_producto):
     producto = Producto.objects.get(id=id_producto)
     try:
         carro = Carro.objects.get(id_carro=_id_carro(request))
@@ -102,12 +102,12 @@ def anade_carro(request, id_producto):
 
     try:
         item_carro = ItemCarro.objects.get(producto=producto, carro=carro)
-        item_carro.cantidad += 1
+        item_carro.cantidad += numero_producto
         item_carro.save()
     except ItemCarro.DoesNotExist:
         item_carro = ItemCarro.objects.create(
             producto = producto,
-            cantidad = 1,
+            cantidad = numero_producto,
             carro = carro,
         )
         item_carro.save()
@@ -115,7 +115,7 @@ def anade_carro(request, id_producto):
     return redirect('/carro')
 
 
-def remove_cart(request, id_producto):
+def decrease_cart(request, id_producto):
     carro = Carro.objects.get(id_carro=_id_carro(request))
     producto = get_object_or_404(Producto, id= id_producto)
     item_carro = ItemCarro.objects.get(producto=producto, carro=carro)
@@ -125,4 +125,12 @@ def remove_cart(request, id_producto):
         item_carro.save()
     else:
         item_carro.delete()
+    return redirect('/carro')
+
+def remove_cart(request, id_producto):
+    carro = Carro.objects.get(id_carro=_id_carro(request))
+    producto = get_object_or_404(Producto, id= id_producto)
+    item_carro = ItemCarro.objects.get(producto=producto, carro=carro)
+    item_carro.delete()
+    
     return redirect('/carro')

@@ -64,38 +64,40 @@
                 <div class="sec-productos">
                     <div class="filtros-busqueda">
                         <form role="search" action="" method="get" name="simpleSearch" class="">
-                            <span for="tipo-busqueda">Tipo de Búsqueda</span>
+                            <span for="tipo-busqueda" style="color: white;">Tipo de Búsqueda</span>
                             <select name="tipo-busqueda" id="search-select">
                                 <option value="nombre">Por nombre</option>
                                 <option value="fabricante">Por fabricante</option>
                             </select>
 
                             <input type="hidden" value="" name="filtros" id="hidden-input">
-                            <input class="form-control search-field" type="text" name="busqueda" value="{{busqueda}}" id="search-field" placeholder="Buscar (palabras clave, etc.)" >
-                            <br>
-                            <span for="busqueda">
-                                <button type="submit" name="" value="Buscar" class="btn btn-primary icon-search">Buscar</button>
-                            </span>
+                            <div style="display: flex;">
+                                <input class="form-control search-field" type="text" name="busqueda" value="{{busqueda}}" id="search-field" placeholder="Buscar (palabras clave, etc.)" >
+                                <span for="busqueda">
+                                    <button type="submit" name="" value="Buscar" class="btn btn-primary icon-search">Buscar</button>
+                                </span>
+                            </div>
+                            
                         </form>
                     </div>
                     <div class="productos">
                         {% for p in productos %}
                             <div class="producto align-items-center">
                                 <img src="/image/{{p.img}}" alt="">
-                                <a href="/productos/{{p.id}}">{{p.nombre}}</a>
+                                <a href="/producto/{{p.id}}">{{p.nombre}}</a>
                                 <span>{{p.precio}}€</span>
 
                                 {% if p.cantidad > 0 %}
                                 <span>Fuera de stock</span>
                                 {% else %}
                                 <div class="añadir">
-                                    <label for="quantity{{p.id}}">Cantidad</label>
-                                        <select name="quantity{{p.id}}" id="quantity{{p.id}}">
+                                    <label for="quantity{{p.id}}"></label>
+                                        <select name="quantity{{p.id}}" id="quantity{{p.id}}" onchange="select_change(this)">
                                             {% for i in p.cantidad %}
                                                 <option value="{{i}}">{{i}}</option>
                                             {% endfor %}
                                         </select>
-                                    <a href="{% url 'anade_carro' p.id %}">Añadir</a>
+                                    <a href="{% url 'anade_carro' p.id 1 %}">Añadir</a>
                                 </div>
 
                                 {% endif%}
@@ -121,6 +123,7 @@
         <script src="{% static 'js/magnific-popup-options.js' %}"></script>
         <script src="{% static 'js/custom.js' %}"></script>
         <script src="{% static 'js/catalogo.js' %}"></script>
+        <script src="{% static 'js/select.js' %}"></script>
 
     </body>
 </html>
