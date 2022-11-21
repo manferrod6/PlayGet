@@ -26,6 +26,9 @@ def index(request):
 def sobre_nosotros(request):
     return render(request, 'homepage/sobre_nosotros.html')
 
+def servicios(request):
+    return render(request,'homepage/servicios.html')
+
 def producto(request,pk):
     producto = Producto.objects.get(id=pk)
 
