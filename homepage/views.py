@@ -19,6 +19,9 @@ def home(request):
 def index(request):
     return render(request, 'homepage/index.html')
 
+def sobre_nosotros(request):
+    return render(request, 'homepage/sobre_nosotros.html')
+
 def producto(request,pk):
     producto = Producto.objects.get(id=pk)
 
@@ -52,7 +55,6 @@ def catalogo(request):
 
     for p in productos:
         p.cantidad = [*range(1, p.cantidad)]
-
 
 
     return render(request, 'homepage/catalogo.html', 

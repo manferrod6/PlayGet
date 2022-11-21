@@ -43,7 +43,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <a href="index" class="navbar-brand mx-auto mx-lg-0">PlayGet</a>
+                <a href="index.html" class="navbar-brand mx-auto mx-lg-0">PlayGet</a>
 
                 <div class="d-flex align-items-center d-lg-none">
                     <i class="fas fa-shopping-basket"></i>
@@ -59,7 +59,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link click-scroll" href="catalogo">Todos nuestros Juguetes</a>
+                            <a class="nav-link click-scroll" href="#section_2">Todos nuestros Juguetes</a>
                         </li>
 
                         <li class="nav-item">
@@ -67,7 +67,7 @@
                         </li>
                         <!--Si hace falta se pueden añadir o eliminar más secciones-->
                         <li class="nav-item">
-                            <a class="nav-link click-scroll" href="#section_4">Devoluciones</a>
+                            <a class="nav-link click-scroll" href="devoluciones">Devoluciones</a>
                         </li>
 
                         <li class="nav-item">
@@ -91,25 +91,28 @@
             <section class="hero d-flex justify-content-center align-items-center" id="section_1">
                 <div class="container">
                     <div class="row">
-
                         <div class="col-lg-7 col-12">
                             <div class="hero-text">
                                 <div class="hero-title-wrap d-flex align-items-center mb-4">
-                                    <img src="{% static 'images/logo1.png' %}" class="avatar-image avatar-image-large img-fluid" alt="">
-
                                     <h1 class="hero-title ms-3 mb-0">¡Somos PlayGet!</h1>
                                 </div>
-                                <h2 class="mb-4">Tu juguetería de confianza en Sevilla</h2>
-                                <!--Aquí debe ir un link a la página de los juguetes -->
-                                <p class="mb-4"><a class="custom-btn btn custom-link" href="#section_2">LINK A LISTA</a></p>
+                                    <div class="descripcion-empresa">
+                                        <span>
+                                        PlayGet es una empresa s Sevilla. <br>
+                                        Nos dedicamos a la venta online de juguetes. <br>
+                                        No dude en echarle un vistazo a nuestra web, <br>
+                                        en la que encontrará una amplia gama de productos <br>
+                                        ordenados por categorías.<br>
+                                        Para cualquier pregunta no dude en ponerse en <br>
+                                        contacto con nosotros:<br>
+                                        · playget@gmail.com <br>
+                                        · 999999999
+                                        </ul>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-
-                        <div class="col-lg-5 col-12 position-relative">
-                            <div class="hero-image-wrap"></div>
-                            <img src="{% static 'images/ninos_fondo.png' %}" class="hero-image img-fluid" alt="">
-                        </div>
-
                     </div>
                 </div>
 
