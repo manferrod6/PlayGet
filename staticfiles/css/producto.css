@@ -1,0 +1,23 @@
+.sec-producto{
+  height: 60vh;
+  width: 100%;
+  position: relative;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+}
+.producto{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  width: 70%;
+  padding: 20px;
+  border-radius: 5px;
+}
+img.img{
+  max-height: min(50vh, 50vw);
+  max-width: min(50vh, 50vw);
+  border-radius: 5px;
+}
