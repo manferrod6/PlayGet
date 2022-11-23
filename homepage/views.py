@@ -2,9 +2,13 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Producto
 from .models import Carro
 from .models import ItemCarro
+from .models import Pedido
 
 
 from django.db.models import Q
+
+import random
+import string
 
 # Create your views here.
 
@@ -82,6 +86,7 @@ def carro(request, total=0, items_carro=None):
     context = {
         'total' : total,
         'items': items_carro,
+        'carrito': carro,
     }
 
     return render(request, 'homepage/carro.html', context)
@@ -137,3 +142,26 @@ def remove_cart(request, id_producto):
     item_carro.delete()
     
     return redirect('/carro')
+
+def hacer_pedido(request, id_carrito):
+    carro = Carro.objects.get(id_carro=id_carrito)
+    id_pedido = _id_pedido()
+    pedido = Pedido.objects.create(id=id_pedido,carro=carro,estado='PENDIENTE')
+    pedido.save()
+
+    return render(request, 'homepage/pedido.html')
+
+
+def _id_pedido():
+    letras = ''.join(random.sample(string.ascii_uppercase,3))
+    numeros = random.randint(11111,99999)
+    numeros_format = str(numeros)
+    res = letras + numeros_format
+
+    try:
+        Pedido.objects.get(id=res)
+        res = _id_pedido()
+    except :
+        pass
+    
+    return res

@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import RegexValidator
 
 # Create your models here.
 
@@ -36,3 +37,22 @@ class ItemCarro(models.Model):
 
     def __str__(self):
         self.producto
+
+class Pedido(models.Model):
+    id  = models.CharField(max_length=8,unique=True,primary_key=True)
+    carro = models.ForeignKey(Carro, on_delete=models.CASCADE)
+    
+    PENDIENTE = 'PEN'
+    ENVIADO = 'ENV'
+    ENTREGADO = 'ENT'
+    ESTADOS = [
+        (PENDIENTE, 'Pendiente de envio'),
+        (ENVIADO, 'Enviado'),
+        (ENTREGADO, 'Pedido entregado')
+    ]
+
+    estado = models.CharField(max_length=3,choices=ESTADOS, default=PENDIENTE)
+
+    def __str__(self):
+        self.id
+    

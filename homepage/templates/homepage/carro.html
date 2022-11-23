@@ -34,38 +34,41 @@
 
             <section class="hero d-flex justify-content-center align-items-center" id="section_1">
                 <div class="sec">
-                    <h3>Carrito</h3>
-                    <table>
-                        <tr>
-                            <th></th>
-                            <th>Producto</th>
-                            <th>Cantidad</th>
-                            <th>Precio</th>
-                            <th class="i"></th>
-                            <th class="i"></th>
-                            <th></th>
+                    <div class="carrito">
+                        <h3>Carrito</h3>
+                       <table>
+                            <tr>
+                                <th></th>
+                               <th>Producto</th>
+                                <th>Cantidad</th>
+                                <th>Precio</th>
+                                <th class="i"></th>
+                                <th class="i"></th>
+                                <th></th>
 
-                        </tr>
-                        {% for i in items %}
-                        <tr>
-                            <td><img src="/image/{{i.producto.img}}" alt=""></td>  
-                            <td>{{i.producto.nombre}}</td>
-                            <td>{{i.cantidad}}</td>
-                            <td>{{i.sub_total}}€</td>
-                            <td class="i">
-                                <a href="{% url 'anade_carro' i.producto.id 1 %}"> <i class="fa fa-plus"></i></a>
-                            </td>
-                            <td class="i">
-                                <a href="{% url 'decrease_cart' i.producto.id %}"> <i class="fa fa-minus"></i></a>
-                            </td>
-                            <td>
-                                <a href="{% url 'remove_cart' i.producto.id %}"> <p style="color: red;">Remove</p></a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </table>
-                    <p>Precio total: {{total}}€</p>
-    
+                            </tr>
+                            {% for i in items %}
+                           <tr>
+                               <td><img src="/image/{{i.producto.img}}" alt=""></td>  
+                                <td>{{i.producto.nombre}}</td>
+                                <td>{{i.cantidad}}</td>
+                                <td>{{i.sub_total}}€</td>
+                             <td class="i">
+                                    <a href="{% url 'anade_carro' i.producto.id 1 %}"> <i class="fa fa-plus"></i></a>
+                              </td>
+                               <td class="i">
+                                  <a href="{% url 'decrease_cart' i.producto.id %}"> <i class="fa fa-minus"></i></a>
+                               </td>
+                             <td>
+                                    <a href="{% url 'remove_cart' i.producto.id %}"> <p style="color: red;">Remove</p></a>
+                                </td>
+                            </tr>
+                            
+                           {% endfor %}
+                       </table>
+                      <p>Precio total: {{total}}€</p>
+                      <a href="{% url 'hacer_pedido' carrito.id_carro %}">Hacer Pedido</a>
+                    </div>
                 </div>
                 <br>
 
