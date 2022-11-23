@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Producto
 from .models import Carro
 from .models import ItemCarro
+from .forms import ClienteForm
 
-
+from django.core.mail import send_mail
 from django.db.models import Q
 
 # Create your views here.
@@ -137,3 +138,55 @@ def remove_cart(request, id_producto):
     item_carro.delete()
     
     return redirect('/carro')
+
+
+def form_pagar(request, total=0):
+    try:
+        carro = Carro.objects.get(id_carro=_id_carro(request))
+    except Carro.DoesNotExist:
+        return redirect('/carro')
+
+    items_carro = ItemCarro.objects.filter(carro=carro, esta_activo=True)
+
+    if items_carro.exists():
+        for item in items_carro:
+            total += (item.producto.precio * item.cantidad)
+    else:
+        return redirect('/carro')
+
+
+    if request.method == "POST":
+        form = ClienteForm(request.POST)
+        if form.is_valid():
+            form.save()
+            for item in items_carro:
+                item.delete()
+
+            #Hacer pedido
+            #Envía correo
+            msg = 'Gracias por comprar con nosotros.\nHas comprado:\n'
+            for item in items_carro:
+                msg+=str(item.producto.nombre + ' '+ str(item.cantidad)+'\n')
+            msg += 'Importe total: '+str(total)+'€\n'
+            msg += 'Dirección de entrega: '+ request.POST.get('direccion')
+            send_mail(
+                'Pedido completado!',
+                msg,
+                'playget131@gmail.com',
+                [request.POST.get('correo')],
+                fail_silently=False,
+            )
+
+            return redirect('/pedido_completado')
+
+
+    context = {
+        'form' : ClienteForm(),
+        'total' : total,
+        'items': items_carro,
+    }
+
+    return render(request, 'homepage/checkout.html', context)
+
+def pedido_completado(request):
+    return render(request, 'homepage/pedido_completado.html', {'msg':'Pedido completado'})
