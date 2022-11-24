@@ -3,6 +3,7 @@ from .models import Producto
 from .models import Carro
 from .models import ItemCarro
 from .models import Pedido
+from datetime import *
 
 
 from django.db.models import Q
@@ -143,13 +144,30 @@ def remove_cart(request, id_producto):
     
     return redirect('/carro')
 
-def hacer_pedido(request, id_carrito):
+def hacer_pedido(request, id_carrito, total=0):
     carro = Carro.objects.get(id_carro=id_carrito)
     id_pedido = _id_pedido()
     pedido = Pedido.objects.create(id=id_pedido,carro=carro,estado='PENDIENTE')
     pedido.save()
 
-    return render(request, 'homepage/pedido.html')
+    items_carro = ItemCarro.objects.filter(carro=carro, esta_activo=True)
+    for item in items_carro:
+        total += (item.producto.precio * item.cantidad)
+
+    fecha_entrega = pedido.fecha_entrega()
+
+    context = {
+        'total' : total,
+        'items': items_carro,
+        'carrito': carro,
+        'pedido': pedido,
+        'fecha_entrega': fecha_entrega
+    }
+
+    for item in items_carro:
+        item.delete()
+
+    return render(request, 'homepage/pedido.html', context)
 
 
 def _id_pedido():

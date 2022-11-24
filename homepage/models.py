@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import RegexValidator
+from datetime import timedelta
 
 # Create your models here.
 
@@ -41,6 +42,11 @@ class ItemCarro(models.Model):
 class Pedido(models.Model):
     id  = models.CharField(max_length=8,unique=True,primary_key=True)
     carro = models.ForeignKey(Carro, on_delete=models.CASCADE)
+
+    fecha_pedido = models.DateTimeField(auto_now_add=True)
+
+    def fecha_entrega(self):
+        return self.fecha_pedido + timedelta(days=5)
     
     PENDIENTE = 'PEN'
     ENVIADO = 'ENV'
