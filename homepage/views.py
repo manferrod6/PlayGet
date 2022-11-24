@@ -183,3 +183,27 @@ def _id_pedido():
         pass
     
     return res
+
+def seguimiento(request):
+    return render(request, 'homepage/seguimiento.html')
+
+def seguir_pedido(request, id_pedido, total=0):
+    try:
+        pedido = Pedido.objects.get(id=id_pedido)
+        carro = Carro.objects.get(id_carro=pedido.carro.id_carro)
+        items_carro = ItemCarro.objects.filter(carro=carro, esta_activo=True)
+        for item in items_carro:
+          total += (item.producto.precio * item.cantidad)
+
+        fecha_entrega = pedido.fecha_entrega()
+
+        context = {
+            'total' : total,
+            'items': items_carro,
+            'carrito': carro,
+            'pedido': pedido,
+            'fecha_entrega': fecha_entrega
+        }
+        return render(request, 'homepage/pedido.html', context)
+    except Pedido.DoesNotExist:
+        return render(request, "homepage/no_pedido.html", id_pedido)

@@ -15,6 +15,9 @@ urlpatterns = [
     path('remove_cart/<str:id_producto>', views.decrease_cart, name='decrease_cart'),
     path('productos/<str:pk>', views.producto),
     path('servicios',views.servicios),
-    path('pedido/<str:id_carrito>', views.hacer_pedido, name='hacer_pedido')
+    path('pedido/<str:id_carrito>', views.hacer_pedido, name='hacer_pedido'),
+    path('seguimiento', views.seguimiento, name="seguimiento"),
+    path('seguir_pedido', views.seguir_pedido, name="seguir_pedido"),
+    path('seguir_pedido?no_pedido/<str:id_pedido', views.seguir_pedido, name="no_pedido")
     ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
