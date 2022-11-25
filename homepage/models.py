@@ -1,6 +1,8 @@
 from django.db import models
 from django.core.validators import RegexValidator
+
 from datetime import timedelta
+
 
 # Create your models here.
 
@@ -37,6 +39,7 @@ class ItemCarro(models.Model):
         return self.cantidad * self.producto.precio
 
     def __str__(self):
+
         self.producto
 
 class Pedido(models.Model):
@@ -72,3 +75,19 @@ class ItemPedido(models.Model):
 
     def __str__(self):
         self.producto
+
+        self.producto.nombre
+
+
+class Cliente(models.Model):
+    nombre_completo = models.TextField(max_length=60)
+    direccion = models.TextField(max_length=1000)
+    codigo_postal = models.CharField(max_length=5,
+        validators=[RegexValidator(regex='\d{5}', message='Length has to be 5', code='nomatch')])
+    correo = models.EmailField(max_length=50)
+
+    def __str__(self):
+        return self.nombre_completo
+
+
+
