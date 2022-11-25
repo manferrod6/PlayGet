@@ -44,7 +44,12 @@
                                 </div>
                                     <div class="pedido">
                                         <form method="GET" action="/seguir_pedido" id="searchform">
-                                            <input class="searchfield" id="searchbox" name="pedido" type="text" value="{{ request.GET.id_pedido }}" placeholder="Id de tu pedido..."/>
+                                            <div style="display: flex; width: 75%;">
+                                                <input class="searchfield" id="searchbox" name="id_pedido" type="text" value="{{ id_pedido }}" placeholder="Id de tu pedido..."/>
+                                                <span for="busqueda">
+                                                    <button type="submit" name="" value="Buscar" class="btn btn-primary icon-search">Buscar</button>
+                                                </span>
+                                            </div>  
                                         </form>
                                     </div>
                                 </div>

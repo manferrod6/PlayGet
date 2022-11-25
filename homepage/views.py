@@ -3,6 +3,7 @@ from .models import Producto
 from .models import Carro
 from .models import ItemCarro
 from .models import Pedido
+from .models import ItemPedido
 from datetime import *
 
 
@@ -151,14 +152,21 @@ def hacer_pedido(request, id_carrito, total=0):
     pedido.save()
 
     items_carro = ItemCarro.objects.filter(carro=carro, esta_activo=True)
+    items_pedido = []
     for item in items_carro:
         total += (item.producto.precio * item.cantidad)
+        item_pedido = ItemPedido.objects.create(
+            producto = item.producto,
+            pedido = pedido,
+            cantidad = item.producto.cantidad
+        )
+        items_pedido.append(item_pedido)
 
     fecha_entrega = pedido.fecha_entrega()
 
     context = {
         'total' : total,
-        'items': items_carro,
+        'items': items_pedido,
         'carrito': carro,
         'pedido': pedido,
         'fecha_entrega': fecha_entrega
@@ -187,23 +195,21 @@ def _id_pedido():
 def seguimiento(request):
     return render(request, 'homepage/seguimiento.html')
 
-def seguir_pedido(request, id_pedido, total=0):
-    try:
-        pedido = Pedido.objects.get(id=id_pedido)
-        carro = Carro.objects.get(id_carro=pedido.carro.id_carro)
-        items_carro = ItemCarro.objects.filter(carro=carro, esta_activo=True)
-        for item in items_carro:
-          total += (item.producto.precio * item.cantidad)
-
+def seguir_pedido(request, total=0):
+    id_pedido = request.GET.get('id_pedido', '')
+    if id_pedido != '':
+        
+        pedido = get_object_or_404(Pedido, id= id_pedido)
+        items_pedido = ItemPedido.objects.filter(pedido=pedido)
+        for item in items_pedido:
+            total += (item.producto.precio * item.cantidad)
         fecha_entrega = pedido.fecha_entrega()
-
         context = {
             'total' : total,
-            'items': items_carro,
-            'carrito': carro,
+            'items': items_pedido,
             'pedido': pedido,
             'fecha_entrega': fecha_entrega
         }
-        return render(request, 'homepage/pedido.html', context)
-    except Pedido.DoesNotExist:
-        return render(request, "homepage/no_pedido.html", id_pedido)
+            
+        
+    return render(request, 'homepage/pedido.html', context)

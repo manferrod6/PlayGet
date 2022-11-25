@@ -62,3 +62,13 @@ class Pedido(models.Model):
     def __str__(self):
         self.id
     
+class ItemPedido(models.Model):
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE)
+    cantidad = models.IntegerField()
+
+    def sub_total(self):
+        return self.cantidad * self.producto.precio
+
+    def __str__(self):
+        self.producto
