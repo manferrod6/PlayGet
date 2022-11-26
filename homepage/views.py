@@ -190,3 +190,6 @@ def form_pagar(request, total=0):
 
 def pedido_completado(request):
     return render(request, 'homepage/pedido_completado.html', {'msg':'Pedido completado'})
+
+def atencion_al_cliente(request):
+    return render(request,'homepage/atencion_al_cliente.html')
