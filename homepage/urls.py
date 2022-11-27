@@ -17,6 +17,7 @@ urlpatterns = [
     path('servicios',views.servicios),
     path('carro/form_pagar',views.form_pagar),
     path('pedido_completado', views.pedido_completado),
+    path('atencion_al_cliente', views.atencion_al_cliente),
 
     ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
