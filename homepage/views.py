@@ -193,3 +193,13 @@ def pedido_completado(request):
 
 def atencion_al_cliente(request):
     return render(request,'homepage/atencion_al_cliente.html')
+
+
+def terminos_del_servicio(request):
+    return render(request,'homepage/terminos_del_servicio.html')
+
+
+def aviso_de_privacidad(request):
+    return render(request,'homepage/aviso_de_privacidad.html')
+
+
