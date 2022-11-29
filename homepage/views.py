@@ -33,7 +33,7 @@ def servicios(request):
 def producto(request,pk):
     producto = Producto.objects.get(id=pk)
 
-    producto.cantidad = [*range(1, producto.cantidad)]
+    producto.rango = [*range(1, producto.cantidad)]
 
     return render(request, 'homepage/producto.html',{'producto': producto })
 
@@ -62,7 +62,7 @@ def catalogo(request):
     
 
     for p in productos:
-        p.cantidad = [*range(1, p.cantidad)]
+        p.rango = [*range(1, p.cantidad)]
 
 
     return render(request, 'homepage/catalogo.html', 
