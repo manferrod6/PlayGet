@@ -69,3 +69,6 @@ td{
   height: 1em;
 }
 
+textarea{
+  height: 3rem;
+}

@@ -18,6 +18,9 @@ urlpatterns = [
     path('carro/form_pagar',views.form_pagar),
     path('pedido_completado', views.pedido_completado),
     path('payment',views.payment),
-
+    path('atencion_al_cliente', views.atencion_al_cliente),
+    path('terminos_del_servicio', views.terminos_del_servicio),
+    path('aviso_de_privacidad', views.aviso_de_privacidad),
+    
     ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

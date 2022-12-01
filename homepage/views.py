@@ -45,7 +45,7 @@ def servicios(request):
 def producto(request,pk):
     producto = Producto.objects.get(id=pk)
 
-    producto.cantidad = [*range(1, producto.cantidad)]
+    producto.rango = [*range(1, producto.cantidad)]
 
     return render(request, 'homepage/producto.html',{'producto': producto })
 
@@ -74,7 +74,7 @@ def catalogo(request):
     
 
     for p in productos:
-        p.cantidad = [*range(1, p.cantidad)]
+        p.rango = [*range(1, p.cantidad)]
 
 
     return render(request, 'homepage/catalogo.html', 
@@ -221,13 +221,6 @@ def pedido_completado(request):
 
 
 
-
-
-
-
-
-
-
 '''
 AJAX function to handle a Braintree payment
 '''
@@ -309,4 +302,18 @@ def payment(request,total=0):
             json.dumps({"result": "error"}),
             content_type="application/json"
             )
+
+            
+
+def atencion_al_cliente(request):
+    return render(request,'homepage/atencion_al_cliente.html')
+
+
+def terminos_del_servicio(request):
+    return render(request,'homepage/terminos_del_servicio.html')
+
+
+def aviso_de_privacidad(request):
+    return render(request,'homepage/aviso_de_privacidad.html')
+
 

@@ -86,14 +86,14 @@
                                 <img src="/image/{{p.img}}" alt="">
                                 <a href="/producto/{{p.id}}">{{p.nombre}}</a>
                                 <span>{{p.precio}}€</span>
-
-                                {% if p.cantidad > 0 %}
+                                <span>Fabricante: {{p.fabricante}}</span>
+                                {% if p.cantidad == 0 %}
                                 <span>Fuera de stock</span>
                                 {% else %}
                                 <div class="añadir">
                                     <label for="quantity{{p.id}}"></label>
                                         <select name="quantity{{p.id}}" id="quantity{{p.id}}" onchange="select_change(this)">
-                                            {% for i in p.cantidad %}
+                                            {% for i in p.rango %}
                                                 <option value="{{i}}">{{i}}</option>
                                             {% endfor %}
                                         </select>
