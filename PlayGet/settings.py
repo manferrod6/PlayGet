@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'homepage',
     'django.contrib.staticfiles',
+    
 ]
 
 MIDDLEWARE = [
@@ -108,7 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Madrid'
 
 USE_I18N = True
 
@@ -139,4 +140,11 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'playget131@gmail.com'
 EMAIL_HOST_PASSWORD = 'lrivelyeomgvnkxn'
 DEFAULT_FROM_EMAIL = 'default from email'
+
+
+
+BT_ENVIRONMENT = 'sandbox'
+BT_MERCHANT_ID = 'x2b6y4jrj9q4f2y7'
+BT_PUBLIC_KEY = 'fntzxzcngdchb76g'
+BT_PRIVATE_KEY = 'c70a6a771448f74cd94f03c26fb31f9c'
 
