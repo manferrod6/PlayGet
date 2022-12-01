@@ -40,23 +40,24 @@
                     <div class="producto">
                         <img src="/image/{{producto.img}}" class="img" alt="">
                         <h3>{{producto.nombre}}</h3>
+                        <p>Fabricante: {{producto.fabricante}}</p>
                         <p>{{producto.descripcion}}</p>
                         <div class="añadir">
-                            <label for="quantity{{producto.id}}">Cantidad</label>
-                            <select name="quantity{{producto.id}}" id="quantity{{producto.id}}">
-                                {% for i in producto.cantidad %}
-                                    <option value="{{i}}">{{i}}</option>
-                                {% endfor %}
-                            </select>
                             <div class="añadir">
                                 <label for="quantity{{producto.id}}"></label>
-                                    <select name="quantity{{producto.id}}" id="quantity{{producto.id}}" onchange="select_change(this)">
-                                        {% for i in producto.cantidad %}
-                                            <option value="{{i}}">{{i}}</option>
-                                        {% endfor %}
-                                    </select>
-                                <a href="{% url 'anade_carro' producto.id 1%}">Añadir</a>
-                            </div>
+
+                                    {% if producto.cantidad == 0 %}
+                                        <span>Fuera de stock</span>
+                                    {% else %}
+                                        <select name="quantity{{producto.id}}" id="quantity{{producto.id}}" onchange="select_change(this)">
+                                            {% for i in producto.rango %}
+                                                <option value="{{i}}">{{i}}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <a href="{% url 'anade_carro' producto.id 1%}">Añadir</a>
+                                    {%endif%}
+
+                                </div>
                         </div>
                     </div>
                 </div>
