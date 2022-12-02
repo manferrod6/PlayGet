@@ -19,6 +19,7 @@ urlpatterns = [
     path('pedido_completado', views.pedido_completado),
     path('atencion_al_cliente', views.atencion_al_cliente),
     path('terminos_del_servicio', views.terminos_del_servicio),
+    path('politica_de_devolucion', views.politica_de_devolucion),
     path('aviso_de_privacidad', views.aviso_de_privacidad),
     
     ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
