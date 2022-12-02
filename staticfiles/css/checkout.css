@@ -63,6 +63,12 @@ th{
 td{
   font-size: 1.2rem;
 }
+
+.checkboxPagos {
+  width: 1em;
+  height: 1em;
+}
+
 textarea{
   height: 3rem;
 }

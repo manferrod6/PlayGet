@@ -17,6 +17,7 @@ urlpatterns = [
     path('servicios',views.servicios),
     path('carro/form_pagar',views.form_pagar),
     path('pedido_completado', views.pedido_completado),
+    path('payment',views.payment),
     path('atencion_al_cliente', views.atencion_al_cliente),
     path('terminos_del_servicio', views.terminos_del_servicio),
     path('politica_de_devolucion', views.politica_de_devolucion),
