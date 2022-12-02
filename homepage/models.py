@@ -80,8 +80,8 @@ class ItemPedido(models.Model):
 
 
 class Cliente(models.Model):
-    nombre_completo = models.TextField(max_length=60)
-    direccion = models.TextField(max_length=1000)
+    nombre_completo = models.CharField(max_length=60)
+    direccion = models.CharField(max_length=1000)
     codigo_postal = models.CharField(max_length=5,
         validators=[RegexValidator(regex='\d{5}', message='Length has to be 5', code='nomatch')])
     correo = models.EmailField(max_length=50)
