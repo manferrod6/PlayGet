@@ -1,3 +1,5 @@
+import os
+from PlayGet.settings import STATICFILES_DIRS
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Producto
 from .models import Carro
@@ -10,6 +12,7 @@ from datetime import *
 from .forms import ClienteForm
 from django.core.mail import send_mail
 from django.db.models import Q
+from django.http import HttpResponse
 import braintree
 from django.http import HttpResponse
 import json
@@ -388,5 +391,12 @@ def terminos_del_servicio(request):
 def aviso_de_privacidad(request):
     return render(request,'homepage/aviso_de_privacidad.html')
 
-
-
+def politica_de_devolucion(request):
+    staticpath = STATICFILES_DIRS[0]
+    path = os.path.join(staticpath, 'Politica-de-devoluciones.pdf')
+    print(path)
+    with open(path, 'rb') as pdf:   
+        response = HttpResponse(pdf.read(), content_type='/politica_de_devolucion')
+        response['Content-Disposition'] = 'inline;filename=Politica_de_devolucion.pdf'
+        return response
+    pdf.closed
