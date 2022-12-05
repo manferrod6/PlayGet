@@ -34,11 +34,10 @@ import string
 
 categorias = [
             'Aire libre',
-            'Videojuegos',
             'Juegos de Mesa',
             'Puzzles y Construcciones',
             'Instrumentos Musicales',
-            'Electronicos',
+            'Figuras de Acción',
             ]
     
 def home(request):

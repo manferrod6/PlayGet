@@ -9,7 +9,7 @@ from datetime import timedelta
 
 class Producto(models.Model):
     # id = models.UUIDField()
-    nombre   = models.TextField(max_length=200)
+    nombre   = models.CharField(max_length=200)
     descripcion = models.TextField(max_length=500)
     precio = models.PositiveIntegerField()
     fabricante = models.TextField(max_length=200)
@@ -39,8 +39,7 @@ class ItemCarro(models.Model):
         return self.cantidad * self.producto.precio
 
     def __str__(self):
-
-        self.producto
+        self.producto.nombre
 
 class Pedido(models.Model):
     id  = models.CharField(max_length=8,unique=True,primary_key=True)

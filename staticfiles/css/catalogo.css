@@ -57,7 +57,9 @@ form, form *{
 li{
   list-style: none;
 }
-
+a{
+  text-align: center;
+}
 @media screen{
   section .sec{
     height: 100%;
