@@ -1,6 +1,9 @@
 from django.db import models
 from django.core.validators import RegexValidator
 
+from datetime import timedelta
+
+
 # Create your models here.
 
 
@@ -36,6 +39,43 @@ class ItemCarro(models.Model):
         return self.cantidad * self.producto.precio
 
     def __str__(self):
+
+        self.producto
+
+class Pedido(models.Model):
+    id  = models.CharField(max_length=8,unique=True,primary_key=True)
+    carro = models.ForeignKey(Carro, on_delete=models.CASCADE)
+
+    fecha_pedido = models.DateTimeField(auto_now_add=True)
+
+    def fecha_entrega(self):
+        return self.fecha_pedido + timedelta(days=5)
+    
+    PENDIENTE = 'PEN'
+    ENVIADO = 'ENV'
+    ENTREGADO = 'ENT'
+    ESTADOS = [
+        (PENDIENTE, 'Pendiente de envio'),
+        (ENVIADO, 'Enviado'),
+        (ENTREGADO, 'Pedido entregado')
+    ]
+
+    estado = models.CharField(max_length=3,choices=ESTADOS, default=PENDIENTE)
+
+    def __str__(self):
+        self.id
+    
+class ItemPedido(models.Model):
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE)
+    cantidad = models.IntegerField()
+
+    def sub_total(self):
+        return self.cantidad * self.producto.precio
+
+    def __str__(self):
+        self.producto
+
         self.producto.nombre
 
 

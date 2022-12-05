@@ -2,6 +2,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Producto
 from .models import Carro
 from .models import ItemCarro
+
+from .models import Pedido
+from .models import ItemPedido
+from datetime import *
+
 from .forms import ClienteForm
 from django.core.mail import send_mail
 from django.db.models import Q
@@ -18,6 +23,9 @@ from homepage.mixins import (
     transact,
     find_transaction,
     )
+
+import random
+import string
 
 # Create your views here.
 
@@ -95,6 +103,7 @@ def carro(request, total=0, items_carro=None):
     context = {
         'total' : total,
         'items': items_carro,
+        'carrito': carro,
     }
 
     return render(request, 'homepage/carro.html', context)
@@ -151,6 +160,42 @@ def remove_cart(request, id_producto):
     
     return redirect('/carro')
 
+def _id_pedido():
+    letras = ''.join(random.sample(string.ascii_uppercase,3))
+    numeros = random.randint(11111,99999)
+    numeros_format = str(numeros)
+    res = letras + numeros_format
+
+    try:
+        Pedido.objects.get(id=res)
+        res = _id_pedido()
+    except :
+        pass
+    
+    return res
+
+def seguimiento(request):
+    return render(request, 'homepage/seguimiento.html')
+
+def seguir_pedido(request, total=0):
+    id_pedido = request.GET.get('id_pedido', '')
+    if id_pedido != '':
+        
+        pedido = get_object_or_404(Pedido, id= id_pedido)
+        items_pedido = ItemPedido.objects.filter(pedido=pedido)
+        for item in items_pedido:
+            total += (item.producto.precio * item.cantidad)
+        fecha_entrega = pedido.fecha_entrega()
+        context = {
+            'total' : total,
+            'items': items_pedido,
+            'pedido': pedido,
+            'fecha_entrega': fecha_entrega
+        }
+            
+        
+    return render(request, 'homepage/pedido.html', context)
+
 
 def form_pagar(request, total=0):
     try:
@@ -174,6 +219,34 @@ def form_pagar(request, total=0):
             form.save()
 
             #Hacer pedido
+            
+            id_pedido = _id_pedido()
+            pedido = Pedido.objects.create(id=id_pedido,carro=carro,estado='PENDIENTE')
+            pedido.save()
+            items_pedido = []
+            for item in items_carro:
+                total += (item.producto.precio * item.cantidad)
+                item_pedido = ItemPedido.objects.create(
+                    producto = item.producto,
+                    pedido = pedido,
+                    cantidad = item.producto.cantidad
+                )
+                items_pedido.append(item_pedido)
+                item.delete()
+            #Envía correo
+            msg = 'Gracias por comprar con nosotros.\nHas comprado:\n'
+            for item in items_carro:
+                msg+=str(item.producto.nombre + ' '+ str(item.cantidad)+'\n')
+            msg += 'Su ID de seguimiento de pedido es: ' + str(id_pedido)+'\n'
+            msg += 'Importe total: '+str(total)+'€\n'
+            msg += 'Dirección de entrega: '+ request.POST.get('direccion')
+            send_mail(
+                'Pedido completado!',
+                msg,
+                'playget131@gmail.com',
+                [request.POST.get('correo')],
+                fail_silently=False,
+            )
 
             agent_account=gateway.customer.find('870104067')
             agent_account_id=agent_account.id
@@ -315,5 +388,6 @@ def terminos_del_servicio(request):
 
 def aviso_de_privacidad(request):
     return render(request,'homepage/aviso_de_privacidad.html')
+
 
 
