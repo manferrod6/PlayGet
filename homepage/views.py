@@ -91,7 +91,7 @@ def catalogo(request):
         'busqueda': busqueda}
     )
 
-def carro(request, total=0, items_carro=None):
+def carro(request, total=0, items_carro=None, carro=None):
     try:
         carro = Carro.objects.get(id_carro=_id_carro(request))
         items_carro = ItemCarro.objects.filter(carro=carro, esta_activo=True)
