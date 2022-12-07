@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Producto
 from .models import Carro
 from .models import ItemCarro
+from .models import Cliente
 
 from .models import Pedido
 from .models import ItemPedido
@@ -55,7 +56,7 @@ def servicios(request):
 def producto(request,pk):
     producto = Producto.objects.get(id=pk)
 
-    producto.rango = [*range(1, producto.cantidad)]
+    producto.rango = [*range(1, producto.cantidad + 1)]
 
     return render(request, 'homepage/producto.html',{'producto': producto })
 
@@ -84,7 +85,7 @@ def catalogo(request):
     
 
     for p in productos:
-        p.rango = [*range(1, p.cantidad)]
+        p.rango = [*range(1, p.cantidad + 1)]
 
 
     return render(request, 'homepage/catalogo.html', 
@@ -217,38 +218,15 @@ def form_pagar(request, total=0):
 
     if request.method == "POST":
         form = ClienteForm(request.POST)
+        
         if form.is_valid():
-            form.save()
+            cliente = Cliente.objects.filter(Q(nombre_completo = form['nombre_completo'].value()) 
+            & Q(direccion = form['direccion'].value())
+            & Q(codigo_postal = form['codigo_postal'].value())
+            & Q(correo = form['correo'].value()) )
 
-            #Hacer pedido
-            
-            id_pedido = _id_pedido()
-            pedido = Pedido.objects.create(id=id_pedido,carro=carro,estado='PENDIENTE')
-            pedido.save()
-            items_pedido = []
-            for item in items_carro:
-                total += (item.producto.precio * item.cantidad)
-                item_pedido = ItemPedido.objects.create(
-                    producto = item.producto,
-                    pedido = pedido,
-                    cantidad = item.producto.cantidad
-                )
-                items_pedido.append(item_pedido)
-                item.delete()
-            #Envía correo
-            msg = 'Gracias por comprar con nosotros.\nHas comprado:\n'
-            for item in items_carro:
-                msg+=str(item.producto.nombre + ' '+ str(item.cantidad)+'\n')
-            msg += 'Su ID de seguimiento de pedido es: ' + str(id_pedido)+'\n'
-            msg += 'Importe total: '+str(total)+'€\n'
-            msg += 'Dirección de entrega: '+ request.POST.get('direccion')
-            send_mail(
-                'Pedido completado!',
-                msg,
-                'playget131@gmail.com',
-                [request.POST.get('correo')],
-                fail_silently=False,
-            )
+            if not cliente:
+                form.save()
 
             agent_account=gateway.customer.find('870104067')
             agent_account_id=agent_account.id
@@ -312,7 +290,6 @@ def payment(request,total=0):
         agent_account_id=request.POST.get("customer_id",None)
 
 
-
         try:
             carro = Carro.objects.get(id_carro=_id_carro(request))
         except Carro.DoesNotExist:
@@ -349,16 +326,31 @@ def payment(request,total=0):
 			}
             })
         
-        
-
+            #Hacer pedido
+    
+        id_pedido = _id_pedido()
+        pedido = Pedido.objects.create(id=id_pedido,estado='PENDIENTE')
+        pedido.save()
+        items_pedido = []
         for item in items_carro:
-                item.delete()
+            item_pedido = ItemPedido.objects.create(
+                producto = item.producto,
+                pedido = pedido,
+                cantidad = item.cantidad
+            )
+            items_pedido.append(item_pedido)
+            producto_a_disminuir = item.producto
+            producto_a_disminuir.cantidad -= 1
+            producto_a_disminuir.save()
+            item.delete()
+        carro.delete()
 
         msg = 'Gracias por comprar con nosotros.\nHas comprado:\n'
         for item in items_carro:
-            msg+=str(item.producto.nombre + ' '+ str(item.cantidad)+'\n')
+            msg+= str(item.cantidad) + str(item.producto.nombre + ' '+ '\n')
             msg += 'Importe total: '+str(total)+'€\n'
-            msg += 'Dirección de entrega: '+ request.POST.get('direccion')
+            msg += 'Dirección de entrega: '+ request.POST.get('direccion') +'\n'
+            msg += 'ID pedido: '+str(id_pedido)
         send_mail(
             'Pedido completado!',
             msg,
