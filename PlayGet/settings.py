@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'homepage',
     'django.contrib.staticfiles',
-    
+
 ]
 
 MIDDLEWARE = [
@@ -118,14 +118,15 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+
 STATIC_URL = '/staticfiles/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'staticfiles')
 ]
 
-STATIC_ROOT = "/home/PlayGet/PlayGet/staticfiles"
-# or, eg,
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -133,7 +134,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-MEDIA_ROOT =  os.path.join(BASE_DIR, 'image') 
+MEDIA_ROOT =  os.path.join(BASE_DIR, 'image')
 MEDIA_URL = '/image/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

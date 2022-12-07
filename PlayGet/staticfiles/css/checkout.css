@@ -1,0 +1,74 @@
+
+.sec{
+  position: absolute;
+  top: 150px; 
+  left: 10px;
+  z-index: 4;
+  background-color: palegoldenrod;
+  padding: 20px;
+  border-radius: 6px;
+  height: 40vh;
+  width: 40vw;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.formulario{
+  position: absolute;
+  top: 150px; 
+  right: 10px;
+  z-index: 4;
+  background-color: palegoldenrod;
+  padding: 20px;
+  border-radius: 6px;
+  height: 40vh;
+  width: 55vw;
+  overflow-y: auto;
+}
+form{
+  display: flex;
+  flex-direction: column;
+}
+
+img{
+  height: 40px;
+  width: 40px;
+}
+
+table, table *{
+  margin: 10px;
+}
+th,td{
+  padding: 0.6rem;
+  padding-left: 3rem;
+  padding-right: 3rem;
+
+}
+
+h3{
+  color: var(--secondary-color);
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  width: 9.5rem;
+}
+
+th.i,td.i{
+  padding: 0;
+}
+th{
+  font-size: 1.5rem;
+
+}
+td{
+  font-size: 1.2rem;
+}
+
+.checkboxPagos {
+  width: 1em;
+  height: 1em;
+}
+
+textarea{
+  height: 3rem;
+}
