@@ -26,7 +26,7 @@ class Carro(models.Model):
     fecha_añadido = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        self.id_carro
+        return self.id_carro
 
 
 class ItemCarro(models.Model):
@@ -39,11 +39,10 @@ class ItemCarro(models.Model):
         return self.cantidad * self.producto.precio
 
     def __str__(self):
-        self.producto.nombre
+        return self.producto.nombre
 
 class Pedido(models.Model):
     id  = models.CharField(max_length=8,unique=True,primary_key=True)
-    carro = models.ForeignKey(Carro, on_delete=models.CASCADE)
 
     fecha_pedido = models.DateTimeField(auto_now_add=True)
 
@@ -62,7 +61,7 @@ class Pedido(models.Model):
     estado = models.CharField(max_length=3,choices=ESTADOS, default=PENDIENTE)
 
     def __str__(self):
-        self.id
+        return str(self.id)
     
 class ItemPedido(models.Model):
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
@@ -73,9 +72,7 @@ class ItemPedido(models.Model):
         return self.cantidad * self.producto.precio
 
     def __str__(self):
-        self.producto
-
-        self.producto.nombre
+        return self.producto.nombre
 
 
 class Cliente(models.Model):
