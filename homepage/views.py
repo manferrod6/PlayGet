@@ -340,7 +340,7 @@ def payment(request,total=0):
             )
             items_pedido.append(item_pedido)
             producto_a_disminuir = item.producto
-            producto_a_disminuir.cantidad -= 1
+            producto_a_disminuir.cantidad -= item.cantidad
             producto_a_disminuir.save()
             item.delete()
         carro.delete()
