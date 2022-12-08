@@ -131,6 +131,8 @@ def anade_carro(request, id_producto, numero_producto):
     try:
         item_carro = ItemCarro.objects.get(producto=producto, carro=carro)
         item_carro.cantidad += numero_producto
+        if item_carro.cantidad > item_carro.producto.cantidad:
+            item_carro.cantidad = item_carro.producto.cantidad
         item_carro.save()
     except ItemCarro.DoesNotExist:
         item_carro = ItemCarro.objects.create(
@@ -180,11 +182,15 @@ def _id_pedido():
 def seguimiento(request):
     return render(request, 'homepage/seguimiento.html')
 
-def seguir_pedido(request, total=0):
+def seguir_pedido(request, pedido=None, total=0):
     id_pedido = request.GET.get('id_pedido', '')
-    if id_pedido != '':
+    if len(id_pedido) == 8:
         
-        pedido = get_object_or_404(Pedido, id= id_pedido)
+        try:
+            pedido = Pedido.objects.get(id= id_pedido)
+        except:
+            return render(request, 'homepage/seguimiento.html')
+
         items_pedido = ItemPedido.objects.filter(pedido=pedido)
         for item in items_pedido:
             total += (item.producto.precio * item.cantidad)
@@ -197,7 +203,8 @@ def seguir_pedido(request, total=0):
         }
             
         
-    return render(request, 'homepage/pedido.html', context)
+        return render(request, 'homepage/pedido.html', context)
+    return render(request, 'homepage/seguimiento.html')
 
 
 def form_pagar(request, total=0):
