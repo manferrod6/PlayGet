@@ -235,9 +235,7 @@ def form_pagar(request, total=0):
             if not cliente:
                 form.save()
 
-            agent_account=gateway.customer.find('870104067')
-            agent_account_id=agent_account.id
-
+            
             collection = gateway.customer.search([
                 braintree.CustomerSearch.email == request.POST.get('correo')
             ])
